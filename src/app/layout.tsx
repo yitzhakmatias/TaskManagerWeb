@@ -6,15 +6,11 @@ import React, { useEffect, useState } from 'react';
 import { Geist, Geist_Mono } from 'next/font/google';
 import {
   Box,
-  Drawer,
-  List,
-  ListItemText,
   AppBar,
   Toolbar,
   Typography,
   IconButton,
   Button,
-  ListItemButton,
   CssBaseline,
   ThemeProvider,
   createTheme
@@ -53,7 +49,6 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const router = useRouter();
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [userName, setUserName] = useState<string | null>(null);
 
   useEffect(() => {
@@ -61,10 +56,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     const username = localStorage.getItem('userName');
 
     if (authStatus) {
-      setIsAuthenticated(true);
+
       setUserName(username || 'User');
     } else {
-      setIsAuthenticated(false);
       router.push('/auth'); // Redirect to login if not authenticated
     }
   }, [router]);
@@ -72,13 +66,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const handleLogout = () => {
     localStorage.removeItem('authenticated');
     localStorage.removeItem('userName');
-    setIsAuthenticated(false);
+
     router.push('/auth'); // Redirect to login after logout
   };
 
-  const handleNavigation = (path: string) => {
-    router.push(path); // Navigate to different sections (Dashboard, etc.)
-  };
 
   return (
       <html lang="en">
@@ -87,27 +78,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <CssBaseline />
         <Box sx={{ display: 'flex' }}>
           {/* Conditionally Render Sidebar if authenticated */}
-          {/*{isAuthenticated && (
-              <Drawer
-                  sx={{
-                    width: 240,
-                    flexShrink: 0,
-                    '& .MuiDrawer-paper': {
-                      width: 240,
-                      boxSizing: 'border-box',
-                    },
-                  }}
-                  variant="permanent"
-                  anchor="left"
-              >
-                <List>
-                  <ListItemButton onClick={() => handleNavigation('/dashboard')}>
-                    <ListItemText primary="Dashboard" />
-                  </ListItemButton>
-                   Add other navigation items here
-                </List>
-              </Drawer>
-          )}*/}
+
 
           {/* Main Content */}
           <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}>
