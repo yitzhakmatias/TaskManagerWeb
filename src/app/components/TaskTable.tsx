@@ -68,7 +68,7 @@ const TaskTable: React.FC<TaskTableProps> = ({ tasks, onTaskUpdated }) => {
                 ...selectedTask,
                 title: editTitle,
                 description: editDescription,
-                status: editStatus as 'todo' | 'in_progress' | 'done',
+                status: editStatus as 'todo' | 'in_progress' | 'completed',
             };
             await updateTaskStatus(updatedTask.id ,updatedTask.status); // Send the updated task to the backend
             const updatedTasks = tasks.map((task) =>
