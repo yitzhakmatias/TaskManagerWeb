@@ -5,6 +5,8 @@ Application is displayed in
 
 ``` 
 https://task-manager-web-eight.vercel.app/
+
+https://master.d1i13mf9g1bzc.amplifyapp.com/dashboard
 ```
 
 First, run the development server:
