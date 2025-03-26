@@ -2,7 +2,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 Application is displayed in 
-
+![img.png](img.png)
 ``` 
 https://task-manager-web-eight.vercel.app/
 
