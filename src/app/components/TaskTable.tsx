@@ -1,5 +1,3 @@
-// src/components/TaskTable.tsx
-
 'use client';
 
 import React, { useState } from 'react';
@@ -23,6 +21,7 @@ import {
     Select,
     MenuItem
 } from '@mui/material';
+import Grid from '@mui/material/Grid2';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Task } from '@/types/task';
@@ -70,97 +69,102 @@ const TaskTable: React.FC<TaskTableProps> = ({ tasks, onTaskUpdated }) => {
                 description: editDescription,
                 status: editStatus as 'todo' | 'in_progress' | 'completed',
             };
-            await updateTaskStatus(updatedTask.id ,updatedTask.status); // Send the updated task to the backend
+            await updateTaskStatus(updatedTask.id, updatedTask.status);
             const updatedTasks = tasks.map((task) =>
                 task.id === selectedTask.id ? updatedTask : task
             );
-            onTaskUpdated(updatedTasks); // Update tasks in state
+            onTaskUpdated(updatedTasks);
         }
         setSelectedTask(null); // Reset editing state
     };
 
     return (
-        <Box sx={{ display: 'flex' }}>
-            <TableContainer component={Paper} sx={{ flexGrow: 1 }}>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Title</TableCell>
-                            <TableCell>Description</TableCell>
-                            <TableCell>Status</TableCell>
-                            <TableCell>Actions</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {tasks.map((task) => (
-                            <TableRow key={task.id}>
-                                <TableCell>
-                                    {selectedTask && selectedTask.id === task.id ? (
-                                        <TextField
-                                            value={editTitle}
-                                            onChange={(e) => setEditTitle(e.target.value)}
-                                            fullWidth
-                                        />
-                                    ) : (
-                                        task.title
-                                    )}
-                                </TableCell>
-                                <TableCell>
-                                    {selectedTask && selectedTask.id === task.id ? (
-                                        <TextField
-                                            value={editDescription}
-                                            onChange={(e) => setEditDescription(e.target.value)}
-                                            fullWidth
-                                        />
-                                    ) : (
-                                        task.description
-                                    )}
-                                </TableCell>
-                                <TableCell>
-                                    {selectedTask && selectedTask.id === task.id ? (
-                                        <Select
-                                            value={editStatus}
-                                            onChange={(e) => setEditStatus(e.target.value)}
-                                            fullWidth
-                                        >
-                                            <MenuItem value="to do">To Do</MenuItem>
-                                            <MenuItem value="in progress">In Progress</MenuItem>
-                                            <MenuItem value="completed">Completed</MenuItem>
-                                        </Select>
-                                    ) : (
-                                        task.status
-                                    )}
-                                </TableCell>
-                                <TableCell>
-                                    {selectedTask && selectedTask.id === task.id ? (
-                                        <>
-                                            <Button color="primary" onClick={handleSaveEdit}>
-                                                Save
-                                            </Button>
-                                            <Button color="secondary" onClick={() => setSelectedTask(null)}>
-                                                Cancel
-                                            </Button>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <IconButton color="primary" onClick={() => handleEdit(task)}>
-                                                <EditIcon />
-                                            </IconButton>
-                                            <IconButton
-                                                color="error"
-                                                sx={{ ml: 1 }}
-                                                onClick={() => { setOpenDialog(true); setTaskToDelete(task); }}
-                                            >
-                                                <DeleteIcon />
-                                            </IconButton>
-                                        </>
-                                    )}
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+        <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+            <Grid container spacing={2} sx={{ overflowX: 'auto' }}>
+                {/* Task Table */}
+                <Grid  size={{ xs: 12, md: 12 }}>
+                    <TableContainer component={Paper} sx={{ width: '100%' }}>
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Title</TableCell>
+                                    <TableCell>Description</TableCell>
+                                    <TableCell>Status</TableCell>
+                                    <TableCell>Actions</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {tasks.map((task) => (
+                                    <TableRow key={task.id}>
+                                        <TableCell>
+                                            {selectedTask && selectedTask.id === task.id ? (
+                                                <TextField
+                                                    value={editTitle}
+                                                    onChange={(e) => setEditTitle(e.target.value)}
+                                                    fullWidth
+                                                />
+                                            ) : (
+                                                task.title
+                                            )}
+                                        </TableCell>
+                                        <TableCell>
+                                            {selectedTask && selectedTask.id === task.id ? (
+                                                <TextField
+                                                    value={editDescription}
+                                                    onChange={(e) => setEditDescription(e.target.value)}
+                                                    fullWidth
+                                                />
+                                            ) : (
+                                                task.description
+                                            )}
+                                        </TableCell>
+                                        <TableCell>
+                                            {selectedTask && selectedTask.id === task.id ? (
+                                                <Select
+                                                    value={editStatus}
+                                                    onChange={(e) => setEditStatus(e.target.value)}
+                                                    fullWidth
+                                                >
+                                                    <MenuItem value="to do">To Do</MenuItem>
+                                                    <MenuItem value="in progress">In Progress</MenuItem>
+                                                    <MenuItem value="completed">Completed</MenuItem>
+                                                </Select>
+                                            ) : (
+                                                task.status
+                                            )}
+                                        </TableCell>
+                                        <TableCell>
+                                            {selectedTask && selectedTask.id === task.id ? (
+                                                <>
+                                                    <Button color="primary" onClick={handleSaveEdit}>
+                                                        Save
+                                                    </Button>
+                                                    <Button color="secondary" onClick={() => setSelectedTask(null)}>
+                                                        Cancel
+                                                    </Button>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <IconButton color="primary" onClick={() => handleEdit(task)} aria-label={`Edit-task-${task.id}`}>
+                                                        <EditIcon />
+                                                    </IconButton>
+                                                    <IconButton
+                                                        color="error"
+                                                        sx={{ ml: 1 }}
+                                                        onClick={() => { setOpenDialog(true); setTaskToDelete(task); }}
+                                                    >
+                                                        <DeleteIcon />
+                                                    </IconButton>
+                                                </>
+                                            )}
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </Grid>
+            </Grid>
 
             {/* Confirmation Dialog for Deleting Task */}
             <Dialog open={openDialog} onClose={handleCancelDelete}>
