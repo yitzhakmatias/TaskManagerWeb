@@ -50,6 +50,7 @@ describe('TaskTable Component', () => {
         // Wait for the task to be updated
         await waitFor(() => {
             expect(screen.getByDisplayValue('Updated Description 1')).toBeDefined();
+            expect(screen.getByDisplayValue('Updated Task 1')).toBeDefined();
         });
 
     });
